@@ -6,7 +6,7 @@ const path = require("path");
 
 const app = express();
 
-// CORS (optional — for development)
+// CORS (Optional for production, but OK to keep)
 app.use(
   cors({
     origin: "*",
@@ -15,7 +15,7 @@ app.use(
   })
 );
 
-// Parse JSON bodies
+// Parse JSON requests
 app.use(express.json());
 
 // API Routes
@@ -24,18 +24,17 @@ app.use("/api/student", require("./routes/student"));
 app.use("/api/faculty", require("./routes/faculty"));
 app.use("/api/gatekeeper", require("./routes/gatekeeper"));
 
-// Serve React build folder
+// 👉 Serve React static build folder
 app.use(express.static(path.join(__dirname, "build")));
 
-// SPA fallback route (IMPORTANT FIX for Render)
-app.get("/*", (req, res) => {
+// 👉 FIX FOR RENDER + EXPRESS 5 (Wildcard route must be REGEX)
+app.get(/.*/, (req, res) => {
   res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
-// Port
 const PORT = process.env.PORT || 5000;
 
-// Start server + database
+// Start server + database connection
 (async () => {
   try {
     await db.sequelize.sync({ alter: true });

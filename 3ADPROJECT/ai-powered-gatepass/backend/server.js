@@ -6,7 +6,7 @@ const path = require("path");
 
 const app = express();
 
-// CORS (for development – you can remove this after deployment)
+// CORS (optional — for development)
 app.use(
   cors({
     origin: "*",
@@ -15,7 +15,7 @@ app.use(
   })
 );
 
-// Parse JSON
+// Parse JSON bodies
 app.use(express.json());
 
 // API Routes
@@ -24,14 +24,15 @@ app.use("/api/student", require("./routes/student"));
 app.use("/api/faculty", require("./routes/faculty"));
 app.use("/api/gatekeeper", require("./routes/gatekeeper"));
 
-// 👉 Serve React build folder (VERY IMPORTANT)
+// Serve React build folder
 app.use(express.static(path.join(__dirname, "build")));
 
-// 👉 Handle any other route (React Router)
-app.get("*", (req, res) => {
+// SPA fallback route (IMPORTANT FIX for Render)
+app.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
+// Port
 const PORT = process.env.PORT || 5000;
 
 // Start server + database

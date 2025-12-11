@@ -1,5 +1,9 @@
 {
-  "dependencies": {
-    "web-vitals": "^5.1.0"
+  "name": "ai-powered-gatepass",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node backend/server.js",
+    "heroku-postbuild": "cd frontend && npm install && npm run build"
   }
 }

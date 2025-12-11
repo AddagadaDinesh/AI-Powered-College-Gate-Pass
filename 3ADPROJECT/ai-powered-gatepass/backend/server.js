@@ -2,33 +2,41 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 const db = require("./models");
+const path = require("path");
 
 const app = express();
 
-// CORS configuration
+// CORS (for development – you can remove this after deployment)
 app.use(
   cors({
-    origin: "http://localhost:3000", // React frontend URL
+    origin: "*",
     methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true, // Allow cookies and auth headers
+    credentials: true,
   })
 );
 
-// Parse JSON requests
+// Parse JSON
 app.use(express.json());
 
-// Routes
+// API Routes
 app.use("/api/auth", require("./routes/auth"));
 app.use("/api/student", require("./routes/student"));
 app.use("/api/faculty", require("./routes/faculty"));
 app.use("/api/gatekeeper", require("./routes/gatekeeper"));
 
+// 👉 Serve React build folder (VERY IMPORTANT)
+app.use(express.static(path.join(__dirname, "build")));
+
+// 👉 Handle any other route (React Router)
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
+
 const PORT = process.env.PORT || 5000;
 
-// Sequelize sync and server start
+// Start server + database
 (async () => {
   try {
-    // Use alter:true in development to automatically adjust tables
     await db.sequelize.sync({ alter: true });
     console.log("✅ Database connected and synced");
 

@@ -6,7 +6,7 @@ const path = require("path");
 
 const app = express();
 
-// CORS (Optional for production, but OK to keep)
+// CORS
 app.use(
   cors({
     origin: "*",
@@ -15,7 +15,7 @@ app.use(
   })
 );
 
-// Parse JSON requests
+// JSON parsing
 app.use(express.json());
 
 // API Routes
@@ -24,17 +24,21 @@ app.use("/api/student", require("./routes/student"));
 app.use("/api/faculty", require("./routes/faculty"));
 app.use("/api/gatekeeper", require("./routes/gatekeeper"));
 
-// 👉 Serve React static build folder
-app.use(express.static(path.join(__dirname, "build")));
+// =======================
+// SERVE REACT FRONTEND
+// =======================
+const buildPath = path.join(__dirname, "../frontend/build");
+app.use(express.static(buildPath));
 
-// 👉 FIX FOR RENDER + EXPRESS 5 (Wildcard route must be REGEX)
-app.get(/.*/, (req, res) => {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(buildPath, "index.html"));
 });
 
+// =======================
+// START SERVER
+// =======================
 const PORT = process.env.PORT || 5000;
 
-// Start server + database connection
 (async () => {
   try {
     await db.sequelize.sync({ alter: true });

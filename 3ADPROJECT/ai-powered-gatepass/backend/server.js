@@ -32,7 +32,9 @@ app.use(express.static(buildPath));
 
 // ✅ EXPRESS v5 FIX (REGEX REQUIRED)
 app.get(/.*/, (req, res) => {
-  res.sendFile(path.join(buildPath, "index.html"));
+  res.sendFile(
+    path.join(__dirname, "../frontend/build/index.html")
+  );
 });
 
 // =======================

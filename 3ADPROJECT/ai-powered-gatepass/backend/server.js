@@ -30,10 +30,9 @@ app.use("/api/gatekeeper", require("./routes/gatekeeper"));
 const buildPath = path.join(__dirname, "../frontend/build");
 app.use(express.static(buildPath));
 
-app.get('/*', (req, res) => {
-  res.sendFile(
-    path.join(__dirname, '../frontend/build/index.html')
-  );
+// ✅ EXPRESS v5 FIX (REGEX REQUIRED)
+app.get(/.*/, (req, res) => {
+  res.sendFile(path.join(buildPath, "index.html"));
 });
 
 // =======================
@@ -44,7 +43,7 @@ const PORT = process.env.PORT || 5000;
 (async () => {
   try {
     await db.sequelize.authenticate();
-    console.log("✅ Database connected and synced");
+    console.log("✅ Database connected");
 
     app.listen(PORT, () => {
       console.log(`🚀 Server running on port ${PORT}`);

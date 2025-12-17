@@ -1,56 +1,41 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
-const db = require("./models");
-const path = require("path");
 
 const app = express();
 
-// CORS
-app.use(
-  cors({
-    origin: "*",
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true,
-  })
-);
-
-// JSON parsing
+// Middleware
+app.use(cors());
 app.use(express.json());
 
-// API Routes
-app.use("/api/auth", require("./routes/auth"));
-app.use("/api/student", require("./routes/student"));
-app.use("/api/faculty", require("./routes/faculty"));
-app.use("/api/gatekeeper", require("./routes/gatekeeper"));
+// =====================
+// MongoDB Connection
+// =====================
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("✅ MongoDB connected successfully");
+  })
+  .catch((err) => {
+    console.error("❌ MongoDB connection error:", err);
+  });
 
-// =======================
-// SERVE REACT FRONTEND
-// =======================
-const buildPath = path.join(__dirname, "../frontend/build");
-app.use(express.static(buildPath));
-
-// ✅ EXPRESS v5 FIX (REGEX REQUIRED)
-app.get(/.*/, (req, res) => {
-  res.sendFile(
-    path.join(__dirname, "../frontend/build/index.html")
-  );
+// =====================
+// Routes
+// =====================
+app.get("/", (req, res) => {
+  res.send("AI Powered Gate Pass Backend Running 🚀");
 });
 
-// =======================
-// START SERVER
-// =======================
+// TODO: Add your routes here
+// app.use("/api/auth", require("./routes/auth"));
+// app.use("/api/student", require("./routes/student"));
+// app.use("/api/faculty", require("./routes/faculty"));
+// app.use("/api/gatekeeper", require("./routes/gatekeeper"));
+
 const PORT = process.env.PORT || 5000;
 
-(async () => {
-  try {
-    await db.sequelize.authenticate();
-    console.log("✅ Database connected");
-
-    app.listen(PORT, () => {
-      console.log(`🚀 Server running on port ${PORT}`);
-    });
-  } catch (err) {
-    console.error("❌ DB connection error:", err);
-  }
-})();
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
+});

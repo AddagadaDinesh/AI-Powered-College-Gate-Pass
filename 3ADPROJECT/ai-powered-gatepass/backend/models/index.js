@@ -1,4 +1,3 @@
-// models/index.js
 const fs = require("fs");
 const path = require("path");
 const { Sequelize, DataTypes } = require("sequelize");
@@ -7,22 +6,37 @@ require("dotenv").config();
 const basename = path.basename(__filename);
 const db = {};
 
-// ===============================
-// Sequelize connection (POSTGRES)
-// ===============================
-const sequelize = new Sequelize(process.env.DATABASE_URL, {
-  dialect: "postgres",
-  protocol: "postgres",
-  logging: false,
-  dialectOptions: {
-    ssl: {
-      require: true,
-      rejectUnauthorized: false,
-    },
-  },
-});
+// ✅ FIX: support BOTH local MySQL and Render Postgres
+let sequelize;
 
-// Import all models dynamically
+if (process.env.DATABASE_URL) {
+  // 👉 Render / Production (Postgres)
+  sequelize = new Sequelize(process.env.DATABASE_URL, {
+    dialect: "postgres",
+    protocol: "postgres",
+    logging: false,
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false,
+      },
+    },
+  });
+} else {
+  // 👉 Local development (MySQL)
+  sequelize = new Sequelize(
+    process.env.DB_NAME,
+    process.env.DB_USER,
+    process.env.DB_PASS,
+    {
+      host: process.env.DB_HOST || "localhost",
+      dialect: "mysql",
+      logging: false,
+    }
+  );
+}
+
+// Load models
 fs.readdirSync(__dirname)
   .filter(
     (file) =>
@@ -38,7 +52,7 @@ fs.readdirSync(__dirname)
     db[model.name] = model;
   });
 
-// Apply associations
+// Associations
 Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {
     db[modelName].associate(db);

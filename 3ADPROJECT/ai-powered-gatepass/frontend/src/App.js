@@ -2,26 +2,28 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
 // Components
-import NavbarLogin from "./components/NavbarLogin.jsx";
-import RegistrationForm from "./components/RegistrationForm.jsx";
-
+import NavbarLogin from "./components/NavbarLogin";
+import RegistrationForm from "./components/RegistrationForm";
 
 // Pages
-import Home from "./pages/Home.jsx";
-import StudentLogin from "./pages/StudentLogin.jsx";
-import StudentRegister from "./pages/StudentRegister.jsx";
-import StudentDashboard from "./pages/StudentDashboard.jsx";
-import FacultyLogin from "./pages/FacultyLogin.jsx";
-import FacultyRegister from "./pages/FacultyRegister.jsx";
-import FacultyDashboard from "./pages/FacultyDashboard.jsx";
-import GatekeeperLogin from "./pages/GatekeeperLogin.jsx";
-import GatekeeperDashboard from "./pages/GatekeeperDashboard.jsx";
-import QRScanner from "./pages/QRScannerPage.jsx";
-import GatekeeperRegister from "./pages/GatekeeperRegister.jsx";
+import Home from "./pages/Home";
+import StudentLogin from "./pages/StudentLogin";
+import StudentRegister from "./pages/StudentRegister";
+import StudentDashboard from "./pages/StudentDashboard";
+import FacultyLogin from "./pages/FacultyLogin";
+import FacultyRegister from "./pages/FacultyRegister";
+import FacultyDashboard from "./pages/FacultyDashboard";
+import GatekeeperLogin from "./pages/GatekeeperLogin";
+import GatekeeperRegister from "./pages/GatekeeperRegister";
+import GatekeeperDashboard from "./pages/GatekeeperDashboard";
+import QRScannerPage from "./pages/QRScannerPage"; // ✅ renamed
+
 function App() {
   return (
     <Router>
-      <NavbarLogin />
+      {/* Navbar */}
+      <NavbarLogin title="AI Powered Gate Pass" />
+
       <Routes>
         {/* Home */}
         <Route path="/" element={<Home />} />
@@ -40,12 +42,12 @@ function App() {
         <Route path="/gatekeeper-login" element={<GatekeeperLogin />} />
         <Route path="/gatekeeper-register" element={<GatekeeperRegister />} />
         <Route path="/gatekeeper-dashboard" element={<GatekeeperDashboard />} />
-        <Route path="/qr-scanner" element={<QRScanner />} />
+        <Route path="/qr-scanner" element={<QRScannerPage />} />
 
         {/* Optional Registration Form */}
         <Route path="/registration-form" element={<RegistrationForm />} />
 
-        {/* Fallback route for unknown paths */}
+        {/* Fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>

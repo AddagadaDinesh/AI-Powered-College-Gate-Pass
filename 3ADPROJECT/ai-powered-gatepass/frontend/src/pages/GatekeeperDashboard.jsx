@@ -18,7 +18,7 @@ function GatekeeperDashboard() {
 
   const fetchScans = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/gatekeeper/scans", {
+      const res = await axios.get("https://ai-powered-college-gate-pass-3.onrender.com/api/gatekeeper/scans", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setScans(res.data.logs || []);
@@ -31,7 +31,7 @@ function GatekeeperDashboard() {
     if (!qrText) return;
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/gatekeeper/scan",
+        "https://ai-powered-college-gate-pass-3.onrender.com/api/gatekeeper/scan",
         { qr_token: qrText },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -67,11 +67,11 @@ function GatekeeperDashboard() {
               {openScanner ? "Close Scanner" : "Open Scanner"}
             </button>
             <button
-            onClick={goHome}
-            className="bg-white text-purple-600 px-4 py-2 rounded shadow hover:bg-purple-600 hover:text-white transition-all"
-          >
-            Home
-          </button>
+              onClick={goHome}
+              className="bg-white text-purple-600 px-4 py-2 rounded shadow hover:bg-purple-600 hover:text-white transition-all"
+            >
+              Home
+            </button>
             <button
               onClick={fetchScans}
               className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition"

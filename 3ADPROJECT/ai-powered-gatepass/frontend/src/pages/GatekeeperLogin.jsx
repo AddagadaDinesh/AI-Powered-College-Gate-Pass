@@ -20,7 +20,7 @@ function GatekeeperLogin() {
     setMessage("");
 
     try {
-      const res = await axios.post("http://localhost:5000/api/gatekeeper/login", {
+      const res = await axios.post("https://ai-powered-college-gate-pass-3.onrender.com/api/gatekeeper/login", {
         email,
         password,
       });
@@ -78,9 +78,8 @@ function GatekeeperLogin() {
 
         {message && (
           <p
-            className={`mt-4 text-center font-medium ${
-              message.includes("Invalid") ? "text-red-500" : "text-green-600"
-            }`}
+            className={`mt-4 text-center font-medium ${message.includes("Invalid") ? "text-red-500" : "text-green-600"
+              }`}
           >
             {message}
           </p>

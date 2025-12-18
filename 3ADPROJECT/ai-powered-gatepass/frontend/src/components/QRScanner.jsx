@@ -1,28 +1,39 @@
-import React, { useState } from "react";
-import QrReader from "react-qr-reader"; // v2 works with React 17
+import React, { useEffect } from "react";
+import { Html5QrcodeScanner } from "html5-qrcode";
+import api from "../pages/api";
 
 const QRScanner = () => {
-  const [scanResult, setScanResult] = useState("No result");
+  useEffect(() => {
+    const scanner = new Html5QrcodeScanner(
+      "qr-reader",
+      { fps: 10, qrbox: 250 },
+      false
+    );
 
-  const handleScan = (data) => {
-    if (data) {
-      setScanResult(data);
-    }
-  };
+    scanner.render(
+      async (decodedText) => {
+        try {
+          const res = await api.post("/api/gatekeeper/verify-qr", {
+            qrData: decodedText,
+          });
+          alert(res.data.message || "Gate pass verified");
+        } catch (err) {
+          alert("Verification failed");
+        }
+      },
+      (error) => {
+        console.warn(error);
+      }
+    );
 
-  const handleError = (err) => {
-    console.error(err);
-  };
+    return () => {
+      scanner.clear().catch(() => {});
+    };
+  }, []);
 
   return (
-    <div>
-      <QrReader
-        delay={300}
-        onError={handleError}
-        onScan={handleScan}
-        style={{ width: "100%" }}
-      />
-      <p>Scanned Result: {scanResult}</p>
+    <div className="flex justify-center mt-10">
+      <div id="qr-reader" style={{ width: "300px" }} />
     </div>
   );
 };

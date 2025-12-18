@@ -16,11 +16,11 @@ function GatekeeperRegister() {
     e.preventDefault();
     setMessage("");
     try {
-      const res = await axios.post("http://localhost:5000/api/gatekeeper/register", form);
+      const res = await axios.post("https://ai-powered-college-gate-pass-3.onrender.com/api/gatekeeper/register", form);
       setMessage("✅ Registration successful! Redirecting to login...");
       setTimeout(() => navigate("/gatekeeper-login"), 1500);
     } catch (err) {
-      setMessage(err.response?.data?.error || "Registration failed");
+      setMessage(err.response?.data?.message || err.response?.data?.error || err.message || "Registration failed");
     }
   };
 
@@ -80,9 +80,8 @@ function GatekeeperRegister() {
 
         {message && (
           <p
-            className={`mt-4 text-center font-medium ${
-              message.includes("successful") ? "text-green-600" : "text-red-500"
-            }`}
+            className={`mt-4 text-center font-medium ${message.includes("successful") ? "text-green-600" : "text-red-500"
+              }`}
           >
             {message}
           </p>

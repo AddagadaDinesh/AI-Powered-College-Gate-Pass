@@ -21,7 +21,7 @@ function FacultyLogin() {
     setMessage("");
 
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/faculty-login", {
+      const res = await axios.post("https://ai-powered-college-gate-pass-3.onrender.com/api/auth/faculty-login", {
         email,
         password,
       });
@@ -85,11 +85,10 @@ function FacultyLogin() {
         {/* Message */}
         {message && (
           <p
-            className={`mt-4 text-center font-medium ${
-              message.toLowerCase().includes("invalid")
+            className={`mt-4 text-center font-medium ${message.toLowerCase().includes("invalid")
                 ? "text-red-500"
                 : "text-green-600"
-            }`}
+              }`}
           >
             {message}
           </p>

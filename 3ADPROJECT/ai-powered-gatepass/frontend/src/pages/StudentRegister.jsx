@@ -24,11 +24,12 @@ function StudentRegister() {
     }
 
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/student-register", {
+      const res = await axios.post("https://ai-powered-college-gate-pass-3.onrender.com/api/auth/register", {
         name,
         email,
         password,
         rollNo,
+        role: "student",
       });
 
       const { token, user } = res.data;
@@ -38,7 +39,7 @@ function StudentRegister() {
       setMessage(res.data.message);
       navigate("/student-dashboard");
     } catch (err) {
-      setMessage(err.response?.data?.error || "Registration failed");
+      setMessage(err.response?.data?.message || err.response?.data?.error || err.message || "Registration failed");
     }
   };
 
@@ -122,11 +123,10 @@ function StudentRegister() {
 
         {message && (
           <p
-            className={`mt-4 text-center font-medium ${
-              message.toLowerCase().includes("fail") || message.toLowerCase().includes("not match")
-                ? "text-red-500"
-                : "text-green-600"
-            }`}
+            className={`mt-4 text-center font-medium ${message.toLowerCase().includes("fail") || message.toLowerCase().includes("not match")
+              ? "text-red-500"
+              : "text-green-600"
+              }`}
           >
             {message}
           </p>

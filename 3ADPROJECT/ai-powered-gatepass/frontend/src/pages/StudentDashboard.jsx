@@ -34,7 +34,7 @@ function StudentDashboard() {
   // Fetch student leaves
   const fetchMyLeaves = async (token) => {
     try {
-      const res = await axios.get("http://localhost:5000/api/student/leaves", {
+      const res = await axios.get("https://ai-powered-college-gate-pass-3.onrender.com/api/student/leaves", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setLeaves(res.data.leaves || []);
@@ -60,7 +60,7 @@ function StudentDashboard() {
         reason: leaveReason,
       };
 
-      const res = await axios.post("http://localhost:5000/api/student/leave", leaveData, {
+      const res = await axios.post("https://ai-powered-college-gate-pass-3.onrender.com/api/student/leave", leaveData, {
         headers: { Authorization: `Bearer ${token}` },
       });
 

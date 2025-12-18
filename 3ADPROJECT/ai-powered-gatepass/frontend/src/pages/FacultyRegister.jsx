@@ -24,7 +24,7 @@ function FacultyRegister() {
 
     try {
       setLoading(true);
-      const res = await axios.post("http://localhost:5000/api/auth/faculty-register", {
+      const res = await axios.post("https://ai-powered-college-gate-pass-3.onrender.com/api/auth/faculty-register", {
         name,
         email,
         password,
@@ -33,7 +33,7 @@ function FacultyRegister() {
       setMessage(res.data.message || "Registration successful!");
       navigate("/faculty-login");
     } catch (err) {
-      setMessage(err.response?.data?.error || "Registration failed. Try again.");
+      setMessage(err.response?.data?.message || err.response?.data?.error || err.message || "Registration failed. Try again.");
     } finally {
       setLoading(false);
     }
@@ -116,11 +116,10 @@ function FacultyRegister() {
         {/* Message */}
         {message && (
           <p
-            className={`mt-4 text-center font-medium ${
-              message.toLowerCase().includes("success")
-                ? "text-green-600"
-                : "text-red-500"
-            }`}
+            className={`mt-4 text-center font-medium ${message.toLowerCase().includes("success")
+              ? "text-green-600"
+              : "text-red-500"
+              }`}
           >
             {message}
           </p>

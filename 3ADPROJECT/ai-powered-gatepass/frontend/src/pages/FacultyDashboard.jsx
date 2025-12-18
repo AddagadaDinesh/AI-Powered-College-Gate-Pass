@@ -18,7 +18,7 @@ function FacultyDashboard() {
 
   const fetchLeaves = async (token) => {
     try {
-      const res = await axios.get("http://localhost:5000/api/faculty/leaves", {
+      const res = await axios.get("https://ai-powered-college-gate-pass-3.onrender.com/api/faculty/leaves", {
         headers: { Authorization: `Bearer ${token}` },
       });
       setLeaves(res.data.leaves || []);
@@ -32,7 +32,7 @@ function FacultyDashboard() {
     const token = localStorage.getItem("token");
     try {
       const res = await axios.put(
-        `http://localhost:5000/api/faculty/leave/${id}`,
+        `https://ai-powered-college-gate-pass-3.onrender.com/api/faculty/leave/${id}`,
         { status },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -62,11 +62,11 @@ function FacultyDashboard() {
       <div className="w-full max-w-5xl flex justify-between items-center mb-6 text-white">
         <h1 className="text-3xl font-extrabold">Faculty Dashboard</h1>
         <button
-            onClick={goHome}
-            className="bg-white text-purple-600 px-4 py-2 rounded shadow hover:bg-purple-600 hover:text-white transition-all"
-          >
-            Home
-          </button>
+          onClick={goHome}
+          className="bg-white text-purple-600 px-4 py-2 rounded shadow hover:bg-purple-600 hover:text-white transition-all"
+        >
+          Home
+        </button>
         <button
           onClick={handleLogout}
           className="bg-red-500 px-4 py-2 rounded-xl hover:bg-red-600 transition"

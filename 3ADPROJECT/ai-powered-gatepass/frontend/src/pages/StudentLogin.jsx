@@ -17,9 +17,10 @@ function StudentLogin() {
     setLoading(true);
 
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/student-login", {
+      const res = await axios.post("https://ai-powered-college-gate-pass-3.onrender.com/api/auth/login", {
         email,
         password,
+        role: "student",
       });
 
       const { token, user, message } = res.data;
@@ -35,7 +36,7 @@ function StudentLogin() {
       }
     } catch (err) {
       console.error("Login error:", err);
-      setMessage(err.response?.data?.error || "Login failed. Try again.");
+      setMessage(err.response?.data?.message || err.response?.data?.error || "Login failed. Try again.");
     } finally {
       setLoading(false);
     }
@@ -91,12 +92,11 @@ function StudentLogin() {
         {/* Message Display */}
         {message && (
           <p
-            className={`mt-4 text-center font-medium ${
-              message.toLowerCase().includes("fail") ||
+            className={`mt-4 text-center font-medium ${message.toLowerCase().includes("fail") ||
               message.toLowerCase().includes("error")
-                ? "text-red-500"
-                : "text-green-600"
-            }`}
+              ? "text-red-500"
+              : "text-green-600"
+              }`}
           >
             {message}
           </p>

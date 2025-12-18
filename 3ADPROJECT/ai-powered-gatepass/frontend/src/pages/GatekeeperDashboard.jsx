@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../apiConfig";
 import QRScanner from "../components/QRScanner";
 
 function GatekeeperDashboard() {
@@ -18,7 +19,7 @@ function GatekeeperDashboard() {
 
   const fetchScans = async () => {
     try {
-      const res = await axios.get("https://ai-powered-college-gate-pass-3.onrender.com/api/gatekeeper/scans", {
+      const res = await axios.get(`${API_BASE_URL}/api/gatekeeper/scans`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setScans(res.data.logs || []);
@@ -31,7 +32,7 @@ function GatekeeperDashboard() {
     if (!qrText) return;
     try {
       const res = await axios.post(
-        "https://ai-powered-college-gate-pass-3.onrender.com/api/gatekeeper/scan",
+        `${API_BASE_URL}/api/gatekeeper/scan`,
         { qr_token: qrText },
         { headers: { Authorization: `Bearer ${token}` } }
       );

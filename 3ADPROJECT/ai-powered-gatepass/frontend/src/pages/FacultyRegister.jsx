@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
+import { API_BASE_URL } from "../apiConfig";
 
 function FacultyRegister() {
   const [name, setName] = useState("");
@@ -24,7 +25,7 @@ function FacultyRegister() {
 
     try {
       setLoading(true);
-      const res = await axios.post("https://ai-powered-college-gate-pass-3.onrender.com/api/auth/faculty-register", {
+      const res = await axios.post(`${API_BASE_URL}/api/auth/faculty-register`, {
         name,
         email,
         password,

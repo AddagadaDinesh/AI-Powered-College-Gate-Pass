@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../apiConfig";
 
 function StudentDashboard() {
   const [student, setStudent] = useState({});
@@ -34,7 +35,7 @@ function StudentDashboard() {
   // Fetch student leaves
   const fetchMyLeaves = async (token) => {
     try {
-      const res = await axios.get("https://ai-powered-college-gate-pass-3.onrender.com/api/student/leaves", {
+      const res = await axios.get(`${API_BASE_URL}/api/student/leaves`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setLeaves(res.data.leaves || []);
@@ -60,7 +61,7 @@ function StudentDashboard() {
         reason: leaveReason,
       };
 
-      const res = await axios.post("https://ai-powered-college-gate-pass-3.onrender.com/api/student/leave", leaveData, {
+      const res = await axios.post(`${API_BASE_URL}/api/student/leave`, leaveData, {
         headers: { Authorization: `Bearer ${token}` },
       });
 

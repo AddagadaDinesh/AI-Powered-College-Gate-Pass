@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../apiConfig";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 
 function GatekeeperRegister() {
@@ -16,7 +17,7 @@ function GatekeeperRegister() {
     e.preventDefault();
     setMessage("");
     try {
-      const res = await axios.post("https://ai-powered-college-gate-pass-3.onrender.com/api/gatekeeper/register", form);
+      const res = await axios.post(`${API_BASE_URL}/api/gatekeeper/register`, form);
       setMessage("✅ Registration successful! Redirecting to login...");
       setTimeout(() => navigate("/gatekeeper-login"), 1500);
     } catch (err) {

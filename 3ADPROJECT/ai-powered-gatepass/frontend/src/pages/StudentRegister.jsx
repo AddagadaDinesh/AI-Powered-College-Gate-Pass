@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react"; // 👁 icon library
+import { API_BASE_URL } from "../apiConfig";
 
 function StudentRegister() {
   const [name, setName] = useState("");
@@ -24,7 +25,7 @@ function StudentRegister() {
     }
 
     try {
-      const res = await axios.post("https://ai-powered-college-gate-pass-3.onrender.com/api/auth/register", {
+      const res = await axios.post(`${API_BASE_URL}/api/auth/register`, {
         name,
         email,
         password,
@@ -123,7 +124,7 @@ function StudentRegister() {
 
         {message && (
           <p
-            className={`mt-4 text-center font-medium ${message.toLowerCase().includes("fail") || message.toLowerCase().includes("not match")
+            className={`mt - 4 text - center font - medium ${message.toLowerCase().includes("fail") || message.toLowerCase().includes("not match")
               ? "text-red-500"
               : "text-green-600"
               }`}

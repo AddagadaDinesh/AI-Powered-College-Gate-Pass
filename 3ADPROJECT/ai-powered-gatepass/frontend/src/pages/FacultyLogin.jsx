@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../apiConfig";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 
 function FacultyLogin() {
@@ -21,7 +22,7 @@ function FacultyLogin() {
     setMessage("");
 
     try {
-      const res = await axios.post("https://ai-powered-college-gate-pass-3.onrender.com/api/auth/faculty-login", {
+      const res = await axios.post(`${API_BASE_URL}/api/auth/faculty-login`, {
         email,
         password,
       });
@@ -86,8 +87,8 @@ function FacultyLogin() {
         {message && (
           <p
             className={`mt-4 text-center font-medium ${message.toLowerCase().includes("invalid")
-                ? "text-red-500"
-                : "text-green-600"
+              ? "text-red-500"
+              : "text-green-600"
               }`}
           >
             {message}

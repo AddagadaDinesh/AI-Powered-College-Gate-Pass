@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { API_BASE_URL } from "../apiConfig";
 
 function FacultyDashboard() {
   const [leaves, setLeaves] = useState([]);
@@ -18,7 +19,7 @@ function FacultyDashboard() {
 
   const fetchLeaves = async (token) => {
     try {
-      const res = await axios.get("https://ai-powered-college-gate-pass-3.onrender.com/api/faculty/leaves", {
+      const res = await axios.get(`${API_BASE_URL}/api/faculty/leaves`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setLeaves(res.data.leaves || []);
@@ -32,7 +33,7 @@ function FacultyDashboard() {
     const token = localStorage.getItem("token");
     try {
       const res = await axios.put(
-        `https://ai-powered-college-gate-pass-3.onrender.com/api/faculty/leave/${id}`,
+        `${API_BASE_URL}/api/faculty/leave/${id}`,
         { status },
         { headers: { Authorization: `Bearer ${token}` } }
       );

@@ -36,8 +36,14 @@ function StudentLogin() {
         setMessage("Invalid response from server");
       }
     } catch (err) {
-      console.error("Login error:", err);
-      setMessage(err.response?.data?.message || err.response?.data?.error || "Login failed. Try again.");
+      console.error("Login error context:", {
+        apiUrl: `${API_BASE_URL}/api/auth/login`,
+        error: err,
+        response: err.response?.data
+      });
+
+      const errorMsg = err.response?.data?.message || err.response?.data?.error || err.message;
+      setMessage(errorMsg === "Network Error" ? "Cannot connect to server. Is the backend running?" : errorMsg || "Login failed. Try again.");
     } finally {
       setLoading(false);
     }

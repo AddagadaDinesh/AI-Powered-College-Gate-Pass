@@ -9,7 +9,7 @@ exports.applyLeave = async (req, res) => {
       return res.status(400).json({ error: "All fields are required" });
     }
 
-    const student = await User.findByPk(studentId);
+    const student = await User.findById(studentId);
     if (!student) return res.status(404).json({ error: "Student not found" });
 
     const leave = await LeaveRequest.create({

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../api";
 import { useNavigate } from "react-router-dom";
-import { API_BASE_URL } from "../apiConfig";
 
 function FacultyDashboard() {
   const [leaves, setLeaves] = useState([]);
@@ -19,9 +18,7 @@ function FacultyDashboard() {
 
   const fetchLeaves = async (token) => {
     try {
-      const res = await axios.get(`${API_BASE_URL}/api/faculty/leaves`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await api.get("/api/faculty/leaves");
       setLeaves(res.data.leaves || []);
     } catch (err) {
       console.error(err);
@@ -32,11 +29,7 @@ function FacultyDashboard() {
   const updateStatus = async (id, status) => {
     const token = localStorage.getItem("token");
     try {
-      const res = await axios.put(
-        `${API_BASE_URL}/api/faculty/leave/${id}`,
-        { status },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      const res = await api.put(`/api/faculty/leave/${id}`, { status });
 
       setMessage(`Leave ${status} successfully`);
       if (res.data.studentMessage) alert(res.data.studentMessage);

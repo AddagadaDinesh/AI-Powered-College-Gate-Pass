@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import api from "../pages/api";
+import api from "../api";
 
 function RegistrationForm({ title, role }) {
   const [formData, setFormData] = useState({

@@ -7,10 +7,8 @@ exports.scanQr = async (req, res) => {
     if (!qr_token) return res.status(400).json({ error: "qr_token required" });
 
     // Find leave request by qr_token with user
-    const leave = await LeaveRequest.findOne({
-      where: { qr_token },
-      include: [{ model: User, as: "user", attributes: ["id", "name", "email", "rollNo", "branch"] }],
-    });
+    const leave = await LeaveRequest.findOne({ qr_token })
+      .populate("studentId", "id name email rollNo branch");
 
     if (!leave) return res.status(404).json({ error: "Invalid QR" });
 
@@ -41,7 +39,7 @@ exports.scanQr = async (req, res) => {
         qr_token: leave.qr_token,
         expires_at: leave.expires_at,
       },
-      student: leave.user,
+      student: leave.studentId,
     });
   } catch (err) {
     console.error(err);
@@ -52,14 +50,11 @@ exports.scanQr = async (req, res) => {
 // Optionally list recent scans (for gatekeeper dashboard)
 exports.listScans = async (req, res) => {
   try {
-    const logs = await QRLog.findAll({
-      include: [
-        { model: User, as: "user", attributes: ["id", "name", "rollNo"] },
-        { model: LeaveRequest, as: "leave", attributes: ["id", "from_date", "to_date", "status"] },
-      ],
-      order: [["scanned_at", "DESC"]],
-      limit: 100,
-    });
+    const logs = await QRLog.find()
+      .populate("userId", "id name rollNo")
+      .populate("leaveId", "id from_date to_date status")
+      .sort({ scanned_at: -1 })
+      .limit(100);
     res.json({ logs });
   } catch (err) {
     console.error(err);

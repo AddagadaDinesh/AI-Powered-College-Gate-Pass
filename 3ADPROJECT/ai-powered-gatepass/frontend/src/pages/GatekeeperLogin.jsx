@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../api";
 import { useNavigate } from "react-router-dom";
-import { API_BASE_URL } from "../apiConfig";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 
 function GatekeeperLogin() {
@@ -21,7 +20,7 @@ function GatekeeperLogin() {
     setMessage("");
 
     try {
-      const res = await axios.post(`${API_BASE_URL}/api/gatekeeper/login`, {
+      const res = await api.post("/api/gatekeeper/login", {
         email,
         password,
       });

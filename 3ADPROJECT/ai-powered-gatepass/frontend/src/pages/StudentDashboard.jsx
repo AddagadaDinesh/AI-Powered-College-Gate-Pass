@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../api";
 import { useNavigate } from "react-router-dom";
-import { API_BASE_URL } from "../apiConfig";
 
 function StudentDashboard() {
   const [student, setStudent] = useState({});
@@ -35,9 +34,7 @@ function StudentDashboard() {
   // Fetch student leaves
   const fetchMyLeaves = async (token) => {
     try {
-      const res = await axios.get(`${API_BASE_URL}/api/student/leaves`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await api.get("/api/student/leaves");
       setLeaves(res.data.leaves || []);
     } catch (err) {
       setMessage(err.response?.data?.error || "Failed to fetch leaves");
@@ -61,9 +58,7 @@ function StudentDashboard() {
         reason: leaveReason,
       };
 
-      const res = await axios.post(`${API_BASE_URL}/api/student/leave`, leaveData, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await api.post("/api/student/leave", leaveData);
 
       setMessage(res.data.message);
       setLeaveReason("");

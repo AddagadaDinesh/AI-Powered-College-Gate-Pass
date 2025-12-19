@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import axios from "axios";
+import api from "../api";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react"; // 👁 icon library
-import { API_BASE_URL } from "../apiConfig";
 
 function StudentRegister() {
   const [name, setName] = useState("");
@@ -25,7 +24,7 @@ function StudentRegister() {
     }
 
     try {
-      const res = await axios.post(`${API_BASE_URL}/api/auth/register`, {
+      const res = await api.post("/api/auth/register", {
         name,
         email,
         password,

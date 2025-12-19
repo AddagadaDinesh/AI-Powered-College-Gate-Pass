@@ -31,10 +31,8 @@ exports.submitLeave = async (req, res) => {
 // Get all leaves for student
 exports.getLeaves = async (req, res) => {
   try {
-    const leaves = await LeaveRequest.findAll({
-      where: { studentId: req.user.id },
-      order: [["createdAt", "DESC"]],
-    });
+    const leaves = await LeaveRequest.find({ studentId: req.user.id })
+      .sort({ createdAt: -1 });
 
     res.json({ leaves });
   } catch (err) {

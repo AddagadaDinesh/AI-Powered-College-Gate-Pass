@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import axios from "axios";
+import api from "../api";
 import { useNavigate } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react"; // 👁️ eye icon library
-import { API_BASE_URL } from "../apiConfig";
 
 function StudentLogin() {
   const [email, setEmail] = useState("");
@@ -18,7 +17,7 @@ function StudentLogin() {
     setLoading(true);
 
     try {
-      const res = await axios.post(`${API_BASE_URL}/api/auth/login`, {
+      const res = await api.post("/api/auth/login", {
         email,
         password,
         role: "student",
@@ -37,7 +36,7 @@ function StudentLogin() {
       }
     } catch (err) {
       console.error("Login error context:", {
-        apiUrl: `${API_BASE_URL}/api/auth/login`,
+        apiUrl: `${api.defaults.baseURL}/api/auth/login`,
         error: err,
         response: err.response?.data
       });

@@ -1,28 +1,14 @@
-// backend/models/leaveRequest.js
-const { v4: uuidv4 } = require("uuid");
+const mongoose = require("mongoose");
 
-module.exports = (sequelize, DataTypes) => {
-  const LeaveRequest = sequelize.define("LeaveRequest", {
-    studentId: { type: DataTypes.INTEGER, allowNull: false },
-    branch: { type: DataTypes.STRING, allowNull: true },
-    from_date: { type: DataTypes.DATEONLY, allowNull: false },
-    to_date: { type: DataTypes.DATEONLY, allowNull: false },
-    reason: { type: DataTypes.TEXT, allowNull: false },
-    status: { type: DataTypes.ENUM("pending", "approved", "rejected"), defaultValue: "pending" },
-    qr_token: { type: DataTypes.STRING, allowNull: true },
-    expires_at: { type: DataTypes.DATE, allowNull: true },
-  });
+const leaveRequestSchema = new mongoose.Schema({
+    studentId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    from_date: { type: Date, required: true },
+    to_date: { type: Date, required: true },
+    reason: { type: String, required: true },
+    branch: { type: String, required: true },
+    status: { type: String, enum: ["pending", "approved", "rejected"], default: "pending" },
+    qr_token: { type: String, default: null },
+    createdAt: { type: Date, default: Date.now }
+});
 
-  LeaveRequest.associate = (models) => {
-    LeaveRequest.belongsTo(models.User, { foreignKey: "studentId", as: "user" });
-  };
-
-  LeaveRequest.beforeCreate((leave) => {
-    leave.qr_token = uuidv4();
-    const expireTime = new Date();
-    expireTime.setHours(expireTime.getHours() + 24);
-    leave.expires_at = expireTime;
-  });
-
-  return LeaveRequest;
-};
+module.exports = mongoose.model("LeaveRequest", leaveRequestSchema);

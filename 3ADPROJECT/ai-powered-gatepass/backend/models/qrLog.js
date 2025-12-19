@@ -1,14 +1,10 @@
-// backend/models/qrLog.js
-module.exports = (sequelize, DataTypes) => {
-  const QRLog = sequelize.define("QRLog", {
-    qr_token: { type: DataTypes.STRING, allowNull: false },
-    scanned_at: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
-  });
+const mongoose = require("mongoose");
 
-  QRLog.associate = (models) => {
-    QRLog.belongsTo(models.User, { foreignKey: "userId", as: "user" }); // student who owns the leave
-    QRLog.belongsTo(models.LeaveRequest, { foreignKey: "leaveId", as: "leave" });
-  };
+const qrLogSchema = new mongoose.Schema({
+  qr_token: { type: String, required: true },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  leaveId: { type: mongoose.Schema.Types.ObjectId, ref: "LeaveRequest", required: true },
+  scanned_at: { type: Date, default: Date.now }
+});
 
-  return QRLog;
-};
+module.exports = mongoose.model("QRLog", qrLogSchema);

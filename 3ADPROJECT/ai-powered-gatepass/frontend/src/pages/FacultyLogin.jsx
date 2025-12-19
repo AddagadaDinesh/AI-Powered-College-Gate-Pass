@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../api";
 import { useNavigate } from "react-router-dom";
-import { API_BASE_URL } from "../apiConfig";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 
 function FacultyLogin() {
@@ -22,7 +21,7 @@ function FacultyLogin() {
     setMessage("");
 
     try {
-      const res = await axios.post(`${API_BASE_URL}/api/auth/faculty-login`, {
+      const res = await api.post("/api/auth/faculty-login", {
         email,
         password,
       });

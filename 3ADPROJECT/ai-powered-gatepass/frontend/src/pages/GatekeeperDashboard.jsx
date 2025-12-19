@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api";
 import { useNavigate } from "react-router-dom";
-import { API_BASE_URL } from "../apiConfig";
 import QRScanner from "../components/QRScanner";
 
 function GatekeeperDashboard() {
@@ -19,9 +18,7 @@ function GatekeeperDashboard() {
 
   const fetchScans = async () => {
     try {
-      const res = await axios.get(`${API_BASE_URL}/api/gatekeeper/scans`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await api.get("/api/gatekeeper/scans");
       setScans(res.data.logs || []);
     } catch {
       setMessage("⚠️ Failed to load scans");
@@ -31,11 +28,7 @@ function GatekeeperDashboard() {
   const handleScan = async (qrText) => {
     if (!qrText) return;
     try {
-      const res = await axios.post(
-        `${API_BASE_URL}/api/gatekeeper/scan`,
-        { qr_token: qrText },
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+      const res = await api.post("/api/gatekeeper/scan", { qr_token: qrText });
       setScanResult(res.data);
       setMessage("✅ Scan successful");
       fetchScans();

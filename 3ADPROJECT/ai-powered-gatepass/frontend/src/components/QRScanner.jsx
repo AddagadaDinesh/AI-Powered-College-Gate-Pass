@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Html5QrcodeScanner } from "html5-qrcode";
-import api from "../pages/api";
+import api from "../api";
 
 const QRScanner = () => {
   useEffect(() => {
@@ -13,8 +13,8 @@ const QRScanner = () => {
     scanner.render(
       async (decodedText) => {
         try {
-          const res = await api.post("/api/gatekeeper/verify-qr", {
-            qrData: decodedText,
+          const res = await api.post("/api/gatekeeper/scan", {
+            qr_token: decodedText,
           });
           alert(res.data.message || "Gate pass verified");
         } catch (err) {
@@ -27,7 +27,7 @@ const QRScanner = () => {
     );
 
     return () => {
-      scanner.clear().catch(() => {});
+      scanner.clear().catch(() => { });
     };
   }, []);
 

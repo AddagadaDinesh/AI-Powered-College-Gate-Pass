@@ -4,6 +4,10 @@
   "private": true,
   "scripts": {
     "start": "node backend/server.js",
+    "build": "cd frontend && npm install --legacy-peer-deps && npm run build",
     "heroku-postbuild": "cd frontend && npm install && npm run build"
+  },
+  "dependencies": {
+    "mongoose": "^9.0.1"
   }
 }

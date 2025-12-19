@@ -5,7 +5,18 @@ require("dotenv").config();
 
 const app = express();
 
-app.use(cors());
+// CORS configuration for both development and production
+const corsOptions = {
+  origin: [
+    'http://localhost:3000',
+    'https://ai-powered-college-gate-pass-frontend-l8bkjqg3e.vercel.app',
+    /\.vercel\.app$/  // Allow all Vercel preview deployments
+  ],
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Request logging middleware

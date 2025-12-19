@@ -1,0 +1,4 @@
+[dotenv@17.2.3] injecting env (3) from .env -- tip: 🔐 prevent committing .env to code: https://dotenvx.com/precommit
+Attempting to connect to MongoDB with URI: mongodb+srv://dineshaddagada_db:Dinesh26@cluster0.xgfejie.mongodb.net/?appName=Cluster0
+🚀 Server running on port 5000
+✅ MongoDB connected

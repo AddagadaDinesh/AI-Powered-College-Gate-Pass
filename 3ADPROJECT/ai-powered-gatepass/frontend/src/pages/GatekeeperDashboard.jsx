@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import api from "../api";
 import { useNavigate } from "react-router-dom";
 import QRScanner from "../components/QRScanner";
@@ -11,19 +11,19 @@ function GatekeeperDashboard() {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
-  useEffect(() => {
-    if (!token) navigate("/gatekeeper-login");
-    else fetchScans();
-  }, []);
-
-  const fetchScans = async () => {
+  const fetchScans = useCallback(async () => {
     try {
       const res = await api.get("/api/gatekeeper/scans");
       setScans(res.data.logs || []);
     } catch {
       setMessage("⚠️ Failed to load scans");
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    if (!token) navigate("/gatekeeper-login");
+    else fetchScans();
+  }, [token, navigate, fetchScans]);
 
   const handleScan = async (qrText) => {
     if (!qrText) return;

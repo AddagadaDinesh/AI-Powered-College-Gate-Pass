@@ -16,7 +16,7 @@ function GatekeeperRegister() {
     e.preventDefault();
     setMessage("");
     try {
-      const res = await api.post("/api/gatekeeper/register", form);
+      await api.post("/api/gatekeeper/register", form);
       setMessage("✅ Registration successful! Redirecting to login...");
       setTimeout(() => navigate("/gatekeeper-login"), 1500);
     } catch (err) {

@@ -8,6 +8,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Request logging middleware
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.path}`, req.body);
+  next();
+});
+
 console.log("Attempting to connect to MongoDB with URI:", process.env.MONGO_URI);
 mongoose
   .connect(process.env.MONGO_URI, { serverSelectionTimeoutMS: 5000 })

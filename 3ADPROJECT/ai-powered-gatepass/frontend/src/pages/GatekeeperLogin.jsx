@@ -20,7 +20,7 @@ function GatekeeperLogin() {
     setMessage("");
 
     try {
-      const res = await api.post("/api/gatekeeper/login", {
+      const res = await api.post("/api/auth/gatekeeper-login", {
         email,
         password,
       });
